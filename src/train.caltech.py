@@ -7,8 +7,8 @@ from util import load_image
 import os
 import ipdb
 
-weight_path = '../data/caffe_layers_value.pickle'
-model_path = '../models/caltech256/'
+weight_path = '/media/data/caffe_layers_value.pickle'
+model_path = '/media/data/models/caltech256/'
 pretrained_model_path = None #'../models/caltech256/model-0'
 n_epochs = 10000
 init_learning_rate = 0.01
@@ -16,12 +16,12 @@ weight_decay_rate = 0.0005
 momentum = 0.9
 batch_size = 60
 
-dataset_path = '/media/storage3/Study/data/256_ObjectCategories'
+dataset_path = '/media/data/256_ObjectCategories'
 
-caltech_path = '../data/caltech'
-trainset_path = '../data/caltech/train.pickle'
-testset_path = '../data/caltech/test.pickle'
-label_dict_path = '../data/caltech/label_dict.pickle'
+caltech_path = '/media/data/results/caltech'
+trainset_path = '/media/data/results/caltech/train.pickle'
+testset_path = '/media/data/results/caltech/test.pickle'
+label_dict_path = '/media/data/results/caltech/label_dict.pickle'
 
 if not os.path.exists( trainset_path ):
     if not os.path.exists( caltech_path ):
@@ -67,10 +67,10 @@ labels_tf = tf.placeholder( tf.int64, [None], name='labels')
 detector = Detector(weight_path, n_labels)
 
 p1,p2,p3,p4,conv5, conv6, gap, output = detector.inference(images_tf)
-loss_tf = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits( output, labels_tf ))
+loss_tf = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits( logits=output, labels=labels_tf ))
 
 weights_only = filter( lambda x: x.name.endswith('W:0'), tf.trainable_variables() )
-weight_decay = tf.reduce_sum(tf.pack([tf.nn.l2_loss(x) for x in weights_only])) * weight_decay_rate
+weight_decay = tf.reduce_sum(tf.stack([tf.nn.l2_loss(x) for x in weights_only])) * weight_decay_rate
 loss_tf += weight_decay
 
 sess = tf.InteractiveSession()
@@ -95,7 +95,7 @@ testset.index  = range( len(testset) )
 #trainset = pd.concat( [trainset, trainset2] )
 # We lack the number of training set. Let's use some of the test images
 
-f_log = open('../results/log.caltech256.txt', 'w')
+f_log = open('/media/data/results/log.caltech256.txt', 'w')
 
 iterations = 0
 loss_list = []

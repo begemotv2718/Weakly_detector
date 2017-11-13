@@ -11,11 +11,11 @@ import matplotlib.pyplot as plt
 import os
 import ipdb
 
-testset_path = '../data/caltech/test.pickle'
-label_dict_path = '../data/caltech/label_dict.pickle'
+testset_path = '/media/data/results/caltech/test.pickle'
+label_dict_path = '/media/data/results/caltech/label_dict.pickle'
 
-weight_path = '../data/caffe_layers_value.pickle'
-model_path = '../models/caltech256/model-4'
+weight_path = '/media/data/caffe_layers_value.pickle'
+model_path = '/media/data/models/caltech256/'
 
 batch_size = 1
 

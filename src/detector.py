@@ -110,13 +110,13 @@ class Detector():
 
     def inference( self, rgb, train=False ):
         rgb *= 255.
-        r, g, b = tf.split(3, 3, rgb)
-        bgr = tf.concat(3,
+        r, g, b = tf.split(rgb,3, 3)
+        bgr = tf.concat(
             [
                 b-self.image_mean[0],
                 g-self.image_mean[1],
                 r-self.image_mean[2]
-            ])
+            ],3)
 
         relu1_1 = self.conv_layer( bgr, "conv1_1" )
         relu1_2 = self.conv_layer( relu1_1, "conv1_2" )
