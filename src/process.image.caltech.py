@@ -15,7 +15,7 @@ import sys
 label_dict_path = '/media/data/results/caltech/label_dict.pickle'
 
 weight_path = '/media/data/caffe_layers_value.pickle'
-model_path = '/media/data/models/caltech256/'
+model_path = '/media/data/models/caltech256'
 
 batch_size = 1
 
@@ -32,7 +32,7 @@ classmap = detector.get_classmap( labels_tf, conv6 )
 sess = tf.InteractiveSession()
 saver = tf.train.Saver()
 
-saver.restore( sess, model_path )
+saver.restore( sess, tf.train.latest_checkpoint(model_path) )
 
 
 current_images = np.array(map(lambda x: load_image(x), sys.argv[1:]))
@@ -40,7 +40,8 @@ current_image_paths = sys.argv[1:]
 
 good_index = np.array(map(lambda x: x is not None, current_images))
 
-current_image_paths = current_image_paths[good_index]
+current_image_paths = [ x for x,y in zip(current_image_paths,good_index) if y]
+
 current_images = np.stack(current_images[good_index])
 
 conv6_val, output_val = sess.run(
