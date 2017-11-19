@@ -9,13 +9,14 @@ import skimage.io
 import matplotlib.pyplot as plt
 
 import os
-import ipdb
+#import ipdb
 import sys
 
-label_dict_path = '/media/data/results/caltech/label_dict.pickle'
 
-weight_path = '/media/data/caffe_layers_value.pickle'
-model_path = '/media/data/models/caltech256'
+label_dict_path = '../../results/mytech/label_dict.pickle'
+
+weight_path = '../../caffe_layers_value.pickle'
+model_path = '../../models/mytech'
 
 batch_size = 1
 
@@ -72,8 +73,8 @@ for img_name,label_name in zip(current_image_paths,label_names):
 for vis, ori,ori_path, l_name in zip(classmap_vis, current_images, current_image_paths, label_names):
         print l_name
 
-        vis_path = 'results/'+ ori_path.split('/')[-1]
-        vis_path_ori = 'results/'+ori_path.split('/')[-1].split('.')[0]+'.ori.jpg'
+        vis_path = '/tmp/results/'+ ori_path.split('/')[-1]
+        vis_path_ori = '/tmp/results/'+ori_path.split('/')[-1].split('.')[0]+'.ori.jpg'
         skimage.io.imsave( vis_path, vis )
         skimage.io.imsave( vis_path_ori, ori )
 
